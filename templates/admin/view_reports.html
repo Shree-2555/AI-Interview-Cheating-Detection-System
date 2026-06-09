@@ -1,0 +1,7 @@
+<h2>Reports</h2>
+
+<ul>
+{% for log in logs %}
+    <li>{{ log['user'] }} - {{ log['event'] }} - {{ log['timestamp'] }}</li>
+{% endfor %}
+</ul>

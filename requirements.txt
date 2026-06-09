@@ -1,0 +1,7 @@
+Flask==3.0.3
+opencv-python
+numpy
+mediapipe
+flask-cors
+mediapipe
+py

@@ -1,0 +1,17 @@
+<h2>Add Question</h2>
+
+<form method="POST">
+    <input type="text" name="question" placeholder="Enter question" required><br><br>
+
+    <input type="text" name="option_a" placeholder="Option A" required><br><br>
+    <input type="text" name="option_b" placeholder="Option B" required><br><br>
+    <input type="text" name="option_c" placeholder="Option C" required><br><br>
+    <input type="text" name="option_d" placeholder="Option D" required><br><br>
+
+    <input type="text" name="correct_answer" placeholder="Correct Answer" required><br><br>
+
+    <button type="submit">Add Question</button>
+</form>
+
+<br>
+<a href="{{ url_for('admin.admin_dashboard') }}">Back to Dashboard</a>

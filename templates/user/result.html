@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #111;
+            color: white;
+            padding-top: 100px;
+        }
+
+        .box {
+            background: #222;
+            padding: 30px;
+            border-radius: 10px;
+            display: inline-block;
+            min-width: 300px;
+        }
+
+        h1 {
+            color: #00ff99;
+            margin: 10px 0;
+        }
+
+        p {
+            color: #ccc;
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            background: #00ff99;
+            color: black;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>📊 Your Exam Result</h2>
+
+    {% if result and result['score'] is not none %}
+        <h1>{{ result['score'] }} / {{ result['total_marks'] }}</h1>
+
+        <p><b>Exam ID:</b> {{ result['exam_id'] }}</p>
+        <p><b>Date:</b> {{ result['created_at'][:10] }}</p>
+
+        {% set percentage = (result['score'] / result['total_marks']) * 100 %}
+        <p><b>Percentage:</b> {{ percentage|round(2) }}%</p>
+
+        {% if percentage >= 40 %}
+            <p style="color:#00ff99;"><b>Status: Passed ✅</b></p>
+        {% else %}
+            <p style="color:red;"><b>Status: Failed ❌</b></p>
+        {% endif %}
+
+    {% else %}
+        <p>No result found. Please submit exam first.</p>
+    {% endif %}
+
+    <a href="{{ url_for('user.dashboard') }}">
+        <button class="btn">⬅ Back to Dashboard</button>
+    </a>
+</div>
+
+</body>
+</html>

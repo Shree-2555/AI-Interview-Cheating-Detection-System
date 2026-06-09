@@ -1,0 +1,29 @@
+<h2>Exam Page</h2>
+
+<p>Questions will appear here...</p>
+
+<button onclick="submitExam()">Submit</button>
+
+<script>
+function submitExam(){
+    alert("Exam Submitted!");
+}
+</script>
+
+#
+<h2>Exam</h2>
+
+<form method="POST" action="{{ url_for('user.submit_exam', exam_id=exam_id) }}">
+    {% for q in questions %}
+        <div style="margin-bottom:20px;">
+            <p><b>{{ q.question }}</b></p>
+
+            <label><input type="radio" name="q{{ q.id }}" value="{{ q.option_a }}"> {{ q.option_a }}</label><br>
+            <label><input type="radio" name="q{{ q.id }}" value="{{ q.option_b }}"> {{ q.option_b }}</label><br>
+            <label><input type="radio" name="q{{ q.id }}" value="{{ q.option_c }}"> {{ q.option_c }}</label><br>
+            <label><input type="radio" name="q{{ q.id }}" value="{{ q.option_d }}"> {{ q.option_d }}</label><br>
+        </div>
+    {% endfor %}
+
+    <button type="submit">Submit Exam</button>
+</form>

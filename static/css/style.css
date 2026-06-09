@@ -1,0 +1,452 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BODY + GRADIENT + ANIMATION */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(-45deg, #4f46e5, #06b6d4, #9333ea, #3b82f6);
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease infinite;
+    color: #fff;
+    padding: 20px;
+}
+
+/* Animation */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+/* HEADER */
+.header {
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+
+.header-img {
+    width: 250px;
+    margin: 20px 0;
+    border-radius: 10px;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* CONTAINER */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* FORM CARD */
+form {
+    background: white;
+    padding: 25px;
+    width: 320px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    animation: slideUp 0.8s ease;
+}
+
+/* HEADINGS */
+h2, h3 {
+    margin-bottom: 15px;
+    text-align: center;
+    color: #2c3e50;
+}
+
+/* INPUT */
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: 0.3s;
+}
+
+input:focus {
+    border: 2px solid #667eea;
+    outline: none;
+    box-shadow: 0 0 8px rgba(102,126,234,0.5);
+}
+
+/* FLOATING LABEL INPUT */
+.input-group {
+    position: relative;
+    margin: 15px 0;
+}
+
+.input-group input {
+    border: none;
+    border-bottom: 2px solid #ccc;
+    background: transparent;
+}
+
+.input-group label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    transition: 0.3s;
+    color: #666;
+}
+
+.input-group input:focus + label,
+.input-group input:valid + label {
+    top: -10px;
+    font-size: 12px;
+    color: #4facfe;
+}
+
+/* BUTTONS */
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: #667eea;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+/* SIGNUP BUTTON */
+.signup-btn {
+    margin-top: 10px;
+    background: green;
+}
+
+/* LINKS */
+a {
+    text-decoration: none;
+}
+
+/* ERROR */
+.error {
+    color: red;
+    text-align: center;
+}
+
+/* NAVBAR */
+nav {
+    margin-bottom: 20px;
+    background: #2c3e50;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+nav a {
+    color: white;
+    margin-right: 15px;
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+table th {
+    background: #2c3e50;
+    color: white;
+}
+
+/* ALERT TEXT */
+td:nth-child(2) {
+    font-weight: bold;
+    color: red;
+}
+
+/* VIDEO */
+video {
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+/* FOOTER */
+footer {
+    margin-top: 30px;
+    text-align: center;
+    color: gray;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.header-img {
+    width: 260px;
+    margin: 20px 0;
+    border-radius: 15px;
+    animation: float 3s ease-in-out infinite;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    border: 3px solid white;
+}
+
+form {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(15px);
+    padding: 25px;
+    width: 320px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    animation: slideUp 0.8s ease;
+}
+.header h1 {
+    color: white;
+    text-shadow: 0 0 10px rgba(255,255,255,0.6),
+                 0 0 20px rgba(0,242,255,0.6);
+}
+
+.card {
+    background: rgba(255,255,255,0.9);
+    padding: 20px;
+    margin: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* ===== DASHBOARD BACKGROUND ONLY ===== */
+.dashboard-page {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1f4037, #99f2c8);
+    min-height: 100vh;
+    padding: 30px;
+}
+
+/* ===== HEADER ===== */
+.dashboard-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+    font-size: 32px;
+    text-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+/* ===== GRID ===== */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* ===== CARD ===== */
+.card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.02);
+}
+
+/* ===== TABLE ===== */
+.dashboard-page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    color: white;
+}
+
+.dashboard-page th {
+    background: rgba(0,0,0,0.3);
+    padding: 10px;
+}
+
+.dashboard-page td {
+    padding: 8px;
+    text-align: center;
+}
+
+/* ===== BUTTONS ===== */
+.dashboard-page button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.dashboard-page button:hover {
+    transform: scale(1.05);
+}
+
+/* ===== ALERT ===== */
+.alert-danger {
+    color: #ff4d4d;
+    font-weight: bold;
+}
+
+/* ===== LOGOUT ===== */
+.logout-btn {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+}
+
+/* ===== DASHBOARD WRAPPER ===== */
+.dashboard {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #2b5876, #4e4376);
+    min-height: 100vh;
+    padding: 30px;
+}
+
+/* ===== HEADER ===== */
+.dashboard-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+    font-size: 32px;
+    letter-spacing: 1px;
+}
+
+/* ===== GRID LAYOUT ===== */
+.dashboard .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* ===== CARD STYLE ===== */
+.dashboard .card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+.dashboard .card:hover {
+    transform: translateY(-5px);
+}
+
+/* ===== TABLE ===== */
+.dashboard table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.dashboard th {
+    background: rgba(0,0,0,0.3);
+    padding: 10px;
+    color: white;
+}
+
+.dashboard td {
+    padding: 8px;
+    text-align: center;
+    color: #f1f1f1;
+}
+
+/* ===== ALERT TEXT ===== */
+.alert-danger {
+    color: #ff6b6b;
+    font-weight: bold;
+}
+
+/* ===== BUTTONS ===== */
+.dashboard button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(45deg, #36d1dc, #5b86e5);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dashboard button:hover {
+    transform: scale(1.05);
+}
+
+/* ===== LOGOUT BUTTON ===== */
+.logout-btn {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+}
+
+/* ONLY dashboard background */
+.dashboard {
+    background: linear-gradient(135deg, #2b5876, #4e4376);
+    min-height: 100vh;
+    padding: 30px;
+}
+
+/* cards */
+.dashboard .card {
+    background: rgba(255,255,255,0.15);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+}
+
+/* table */
+.dashboard table {
+    width: 100%;
+    color: white;
+}
+
+/* buttons */
+.dashboard button {
+    background: blue;
+    color: white;
+}

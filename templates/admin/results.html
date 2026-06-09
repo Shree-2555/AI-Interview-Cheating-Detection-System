@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exam Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+
+<h2>📊 Exam Results</h2>
+
+<div class="nav-buttons">
+    <a href="{{ url_for('admin.admin_dashboard') }}">⬅ Back to Dashboard</a>
+</div>
+
+{% if top_performer %}
+<div class="card">
+    <h3>🏆 Top Performer</h3>
+    <p><b>User:</b> {{ top_performer['username'] }}</p>
+    <p><b>Exam:</b> {{ top_performer['exam_name'] }}</p>
+    <p><b>Score:</b> {{ top_performer['score'] }} / {{ top_performer['total_marks'] }}</p>
+    <p><b>Percentage:</b> {{ top_performer['percentage'] }}%</p>
+    <p><b>Status:</b> {{ top_performer['status'] }}</p>
+</div>
+{% endif %}
+
+<h3>All User Results</h3>
+
+<table>
+    <tr>
+        <th>User</th>
+        <th>Exam</th>
+        <th>Score</th>
+        <th>Total</th>
+        <th>Percentage</th>
+        <th>Status</th>
+        <th>Date</th>
+    </tr>
+
+    {% if results %}
+        {% for result in results %}
+        <tr>
+            <td>{{ result['username'] }}</td>
+            <td>{{ result['exam_name'] }}</td>
+            <td>{{ result['score'] }}</td>
+            <td>{{ result['total_marks'] }}</td>
+            <td>{{ result['percentage'] }}%</td>
+            <td>{{ result['status'] }}</td>
+            <td>{{ result['created_at'] }}</td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="7">No exam results found</td>
+        </tr>
+    {% endif %}
+</table>
+
+</body>
+</html>

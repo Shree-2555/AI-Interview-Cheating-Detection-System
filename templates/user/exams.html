@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Exams</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/exams.css') }}">
+</head>
+<body>
+
+<div class="exam-page">
+
+    <div class="page-header">
+        <h1>🧠 Available Exams</h1>
+        <p class="subtitle">Choose an exam and start your test</p>
+    </div>
+
+    {% if exams %}
+        <div class="exam-grid">
+            {% for exam in exams %}
+            <div class="exam-card">
+                <div class="exam-top">
+                    <h2>{{ exam.title }}</h2>
+                    <span class="exam-badge">Live</span>
+                </div>
+
+                <div class="exam-details">
+                    <p>📋 Exam Ready</p>
+                    <p>⏱ Duration: 60 sec</p>
+                </div>
+
+                <a href="{{ url_for('user.start_exam', exam_id=exam.id) }}" class="start-btn">
+                    🚀 Start Exam
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-exams-box">
+            <h2>📭 No Exams Available</h2>
+            <p>No exams are available right now. Please check again later.</p>
+        </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

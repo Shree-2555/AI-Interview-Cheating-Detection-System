@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interview</title>
+</head>
+<body>
+
+<h2>AI Interview Monitoring</h2>
+
+<img src="/video" width="600">
+
+</body>
+</html>
+
+<video id="video" autoplay playsinline width="400"></video>
+<canvas id="canvas" style="display:none;"></canvas>
+
+<p id="status">Starting...</p>
+
+<script>
+const video = document.getElementById("video");
+const canvas = document.getElementById("canvas");
+const statusText = document.getElementById("status");
+
+navigator.mediaDevices.getUserMedia({ video: true })
+

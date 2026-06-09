@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Interview Monitoring</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/interview.css') }}">
+</head>
+<body>
+
+<div class="interview-container">
+
+    <div class="info-panel">
+        <h1>🤖 AI Interview</h1>
+        <p>Live interview recording, camera monitoring, and tab-switch detection are active.</p>
+
+        <div class="tips">
+            <h3>Instructions</h3>
+            <ul>
+                <li>Click Start Interview to begin recording</li>
+                <li>Keep your face visible</li>
+                <li>Do not switch tabs</li>
+                <li>Click Stop & Submit after interview</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="interview-box">
+        <h2>🎤 Live Interview</h2>
+
+        <div class="video-wrapper">
+            <video id="video" autoplay muted playsinline></video>
+            <div class="video-overlay">Live Camera</div>
+        </div>
+
+        <canvas id="canvas" style="display:none;"></canvas>
+
+        <div class="status-box">
+            <h3>Status</h3>
+            <p id="status">Ready to start interview</p>
+        </div>
+
+        <div class="controls">
+            <button type="button" onclick="startRecording()">▶ Start Interview</button>
+            <button type="button" onclick="stopRecording()">⏹ Stop & Submit</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const video = document.getElementById("video");
+const canvas = document.getElementById("canvas");
+const statusText = document.getElementById("status");
+
+let currentStream = null;
+let mediaRecorder = null;
+let recordedChunks = [];
+let detectionInterval = null;
+let isRecording = false;
+let lastScreenshotTime = 0;
+
+// START INTERVIEW RECORDING
+async function startRecording() {
+    try {
+        currentStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "user" },
+            audio: true
+        });
+
+        video.srcObject = currentStream;
+
+        recordedChunks = [];
+
+        mediaRecorder = new MediaRecorder(currentStream, {
+            mimeType: "video/webm"
+        });
+
+        mediaRecorder.ondataavailable = function(event) {
+            if (event.data.size > 0) {
+                recordedChunks.push(event.data);
+            }
+        };
+
+        mediaRecorder.onstop = uploadVideo;
+
+        mediaRecorder.start();
+        isRecording = true;
+
+        statusText.innerText = "✅ Interview recording started";
+
+        startDetection();
+
+    } catch (err) {
+        console.error("Camera/Mic error:", err);
+        statusText.innerText = "❌ Camera or microphone failed";
+        alert("Camera/Mic failed: " + err.message);
+    }
+}
+
+// STOP INTERVIEW RECORDING
+function stopRecording() {
+    if (!isRecording) {
+        alert("Interview is not recording");
+        return;
+    }
+
+    isRecording = false;
+    statusText.innerText = "⏳ Saving interview video...";
+
+    if (detectionInterval) {
+        clearInterval(detectionInterval);
+    }
+
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        mediaRecorder.stop();
+    }
+
+    if (currentStream) {
+        currentStream.getTracks().forEach(track => track.stop());
+    }
+}
+
+// UPLOAD VIDEO TO BACKEND
+function uploadVideo() {
+    const blob = new Blob(recordedChunks, {
+        type: "video/webm"
+    });
+
+    const formData = new FormData();
+    formData.append("video", blob, "interview.webm");
+
+    fetch("/save-interview-video", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        window.location.href = "/user/dashboard";
+    })
+    .catch(error => {
+        alert("Video upload failed");
+        console.log(error);
+    });
+}
+
+// AI DETECTION
+function startDetection() {
+    detectionInterval = setInterval(() => {
+        if (!video.srcObject) return;
+        if (video.readyState !== 4) return;
+
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        ctx.drawImage(video, 0, 0);
+
+        const imageData = canvas.toDataURL("image/jpeg");
+
+        fetch("/detect", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ image: imageData })
+        })
+        .then(res => res.json())
+        .then(data => {
+            statusText.innerText = data.status;
+
+            if (data.status.includes("❌") || data.status.includes("⚠️")) {
+                saveScreenshot(imageData);
+            }
+        })
+        .catch(err => {
+            console.error("Detect error:", err);
+            statusText.innerText = "⚠️ Detection server error";
+        });
+
+    }, 2000);
+}
+
+// SAVE SCREENSHOT ONLY EVERY 5 SECONDS
+function saveScreenshot(imageData) {
+    let now = Date.now();
+
+    if (now - lastScreenshotTime < 5000) return;
+
+    lastScreenshotTime = now;
+
+    fetch("/save-screenshot", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ image: imageData })
+    });
+}
+
+// TAB SWITCH DETECTION
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden && isRecording) {
+        alert("⚠️ Tab switched! Suspicious activity logged");
+    }
+});
+</script>
+
+</body>
+</html>

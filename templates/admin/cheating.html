@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cheating Detected</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #111;
+            color: white;
+            text-align: center;
+        }
+
+        h2 {
+            margin: 20px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .card {
+            background: #222;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        p {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🚨 Cheating Detected Screenshots</h2>
+
+<div class="gallery">
+    {% for img in images %}
+    <div class="card">
+        <img src="{{ url_for('static', filename='screenshots/' + img) }}">
+        <p>{{ img }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>

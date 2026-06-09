@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <div class="dashboard-header">
+        <h1>👨‍💻 User Dashboard</h1>
+        <p>Welcome, {{ username }}</p>
+    </div>
+
+    <div class="grid">
+
+        <div class="card">
+            <h3>👤 Profile</h3>
+            <p><b>Username:</b> {{ username }}</p>
+            <p><b>Role:</b> {{ session['role'] }}</p>
+        </div>
+
+        <div class="card">
+            <h3>📊 Exam History</h3>
+
+            <table>
+                <tr>
+                    <th>Exam</th>
+                    <th>Score</th>
+                    <th>Status</th>
+                </tr>
+
+                {% for exam in exams %}
+                <tr>
+                    <td>{{ exam.name }}</td>
+                    <td>{{ exam.score }} / {{ exam.total_marks }}</td>
+
+                    {% if exam.status == "Pass" %}
+                        <td class="pass">{{ exam.status }}</td>
+                    {% else %}
+                        <td class="fail">{{ exam.status }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>📈 Exam Score Bar Graph</h3>
+            <canvas id="examChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>🚨 Cheating Alerts</h3>
+
+            <table>
+                <tr>
+                    <th>Type</th>
+                    <th>Time</th>
+                </tr>
+
+                {% for alert in alerts %}
+                <tr>
+                    <td class="alert-danger">{{ alert.type }}</td>
+                    <td>{{ alert.time }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>⚡ Quick Actions</h3>
+
+            <a href="{{ url_for('user.start_interview') }}">
+                <button>Start Interview</button>
+            </a>
+
+            <a href="{{ url_for('user.view_exams') }}">
+                <button>Take Exam</button>
+            </a>
+
+            <a href="{{ url_for('user.result') }}">
+                <button type="button">View Results</button>
+            </a>
+
+            <a href="/logout">
+                <button class="logout-btn">Logout</button>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const examNames = [
+        {% for exam in exams %}
+            "{{ exam.name }}",
+        {% endfor %}
+    ];
+
+    const examScores = [
+        {% for exam in exams %}
+            {{ exam.percentage }},
+        {% endfor %}
+    ];
+
+    const ctx = document.getElementById("examChart");
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: examNames,
+            datasets: [{
+                label: "Score Percentage",
+                data: examScores,
+                backgroundColor: "#00ff99"
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

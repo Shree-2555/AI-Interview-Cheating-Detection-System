@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Exam</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/create_exam.css') }}">
+</head>
+
+<body>
+
+<div class="create-container">
+    <div class="create-card">
+
+        <button id="themeToggle" class="theme-btn" type="button">🌙 Dark</button>
+
+        <h2>📝 Create Exam</h2>
+        <p class="subtitle">Enter exam title and continue</p>
+
+        <form method="POST">
+            <div class="input-group">
+                <label>Exam Title</label>
+                <input type="text" name="title" placeholder="📘 Enter exam name..." required>
+            </div>
+
+            <button type="submit" class="create-btn">🚀 Create Exam</button>
+        </form>
+
+        <a href="{{ url_for('admin.admin_dashboard') }}" class="back-btn">
+            ⬅ Back to Dashboard
+        </a>
+
+    </div>
+</div>
+
+<script>

@@ -1,0 +1,86 @@
+/* ===== DASHBOARD ONLY ===== */
+
+.dashboard {
+    background: linear-gradient(135deg, #2b5876, #4e4376);
+    min-height: 100vh;
+    padding: 30px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* HEADER */
+.dashboard-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    margin-top: 10px;
+    color: white;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(45deg, #36d1dc, #5b86e5);
+    color: white;
+}
+.card {
+    background: #222;
+    color: white;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #444;
+    text-align: center;
+}
+
+th {
+    background: #111;
+}
+
+.pass {
+    color: #00ff99;
+    font-weight: bold;
+}
+
+.fail {
+    color: #ff4444;
+    font-weight: bold;
+}
+
+canvas {
+    margin-top: 20px;
+}

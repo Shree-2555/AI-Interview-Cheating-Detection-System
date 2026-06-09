@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interview Videos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+
+<h2>🎥 User Interview Videos</h2>
+
+<div class="nav-buttons">
+    <a href="{{ url_for('admin.admin_dashboard') }}">⬅ Back to Dashboard</a>
+</div>
+
+{% if videos %}
+    {% for video in videos %}
+    <div class="card">
+        <h3>👤 User: {{ video['username'] }}</h3>
+        <p><b>Time:</b> {{ video['created_at'] }}</p>
+
+        <video width="600" controls>
+            <source src="{{ url_for('static', filename=video['video_path'].replace('static/', '')) }}" type="video/webm">
+        </video>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No interview videos found.</p>
+{% endif %}
+
+</body>
+</html>

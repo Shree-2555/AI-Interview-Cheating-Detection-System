@@ -1,0 +1,164 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b, #111827);
+    color: white;
+    min-height: 100vh;
+}
+
+.interview-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    min-height: 100vh;
+    padding: 40px 80px 40px 140px;
+    box-sizing: border-box;
+}
+
+.info-panel {
+    width: 350px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    backdrop-filter: blur(10px);
+}
+
+.info-panel h1 {
+    margin-top: 0;
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.info-panel p {
+    color: #d1d5db;
+    line-height: 1.6;
+}
+
+.tips {
+    margin-top: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.tips h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.tips ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.tips li {
+    margin-bottom: 10px;
+    color: #e5e7eb;
+}
+
+.interview-box {
+    width: 520px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+    backdrop-filter: blur(14px);
+    text-align: center;
+}
+
+.interview-box h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.video-wrapper {
+    position: relative;
+    background: #000;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(255,255,255,0.05);
+}
+
+#video {
+    width: 100%;
+    max-width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: block;
+    background: black;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.status-box {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 15px;
+}
+
+.status-box h3 {
+    margin: 0 0 8px 0;
+}
+
+#status {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #f8fafc;
+}
+
+.controls {
+    margin-top: 20px;
+}
+
+.controls button {
+    border: none;
+    padding: 12px 22px;
+    margin: 8px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.controls button:first-child {
+    background: #22c55e;
+    color: white;
+}
+
+.controls button:last-child {
+    background: #ef4444;
+    color: white;
+}
+
+.controls button:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+@media (max-width: 1000px) {
+    .interview-container {
+        flex-direction: column;
+        padding: 30px;
+    }
+
+    .info-panel,
+    .interview-box {
+        width: 100%;
+        max-width: 600px;
+    }
+}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Exam</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/exam.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+</head>
+<body>
+
+<video id="cameraFeed" autoplay muted playsinline style="display:none;"></video>
+
+<div class="exam-container">
+
+    <div class="exam-info">
+        <h1>🧠 Online Exam</h1>
+        <p>Answer all questions carefully. Stay focused.</p>
+
+        <div class="timer-box">
+            ⏱ Time Left: <span id="timer">60</span>s
+        </div>
+
+        <div class="rules">
+            <h3>Rules</h3>
+            <ul>
+                <li>No tab switching</li>
+                <li>Camera must stay ON</li>
+                <li>No external help</li>
+                <li>No face missing</li>
+                <li>No left/right head movement</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="exam-box">
+        <h2>📄 Exam Questions</h2>
+
+        {% if questions %}
+        <form id="examForm" method="POST" action="{{ url_for('user.submit_exam', exam_id=exam_id) }}">
+
+            {% for q in questions %}
+            <div class="question-card">
+                <p class="question">{{ loop.index }}. {{ q.question }}</p>
+
+                <label><input type="radio" name="q{{ q.id }}" value="{{ q.option_a }}"> {{ q.option_a }}</label>
+                <label><input type="radio" name="q{{ q.id }}" value="{{ q.option_b }}"> {{ q.option_b }}</label>
+                <label><input type="radio" name="q{{ q.id }}" value="{{ q.option_c }}"> {{ q.option_c }}</label>
+                <label><input type="radio" name="q{{ q.id }}" value="{{ q.option_d }}"> {{ q.option_d }}</label>
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="submit-btn">🚀 Submit Exam</button>
+        </form>
+        {% else %}
+            <p>No questions found.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+<script>
+let isSubmitting = false;
+let lastAlertTime = 10;
+let time = 60;
+
+const examForm = document.getElementById("examForm");
+const timer = document.getElementById("timer");
+const videoElement = document.getElementById("cameraFeed");
+
+if (examForm) {
+    examForm.addEventListener("submit", function () {
+        isSubmitting = true;
+    });
+}
+
+function reportCheat(type) {
+    const data = JSON.stringify({
+        username: "{{ session['user'] }}",
+        cheat_type: type
+    });
+
+    navigator.sendBeacon(
+        "/report-cheat",
+        new Blob([data], { type: "application/json" })
+    );
+
+    console.log("Cheat sent:", type);
+}
+
+function sendCheatAlert(type) {
+    if (isSubmitting) return;
+
+    let now = Date.now();
+
+    if (now - lastAlertTime > 3000) {
+        reportCheat(type);
+        alert("⚠️ " + type + " detected!");
+        lastAlertTime = now;
+    }
+}
+
+// TIMER
+const countdown = setInterval(() => {
+    time--;
+    timer.innerText = time;
+
+    if (time <= 0) {
+        clearInterval(countdown);
+        isSubmitting = true;
+        alert("⏰ Time up!");
+        examForm.submit();
+    }
+}, 1000);
+
+// TAB SWITCH
+document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") {
+        sendCheatAlert("Tab Switch");
+    }
+});
+
+// FACE + HEAD DETECTION
+const faceMesh = new FaceMesh({
+    locateFile: file => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+});
+
+faceMesh.setOptions({
+    maxNumFaces: 1,
+    refineLandmarks: true,
+    minDetectionConfidence: 0.5,
+    minTrackingConfidence: 0.5
+});
+
+faceMesh.onResults(results => {
+    if (!results.multiFaceLandmarks || results.multiFaceLandmarks.length === 0) {
+        sendCheatAlert("No Face Detected");
+        return;
+    }
+
+    const face = results.multiFaceLandmarks[0];
+
+    const nose = face[1];
+    const left = face[234];
+    const right = face[454];
+
+    const center = (left.x + right.x) / 2;
+    const movement = nose.x - center;
+
+    if (movement > 0.04) sendCheatAlert("Head Turned Right");
+    if (movement < -0.04) sendCheatAlert("Head Turned Left");
+});
+
+// CAMERA START
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(stream => {
+    videoElement.srcObject = stream;
+
+    stream.getVideoTracks()[0].onended = () => {
+        sendCheatAlert("Camera Off");
+    };
+
+    const camera = new Camera(videoElement, {
+        onFrame: async () => {
+            await faceMesh.send({ image: videoElement });
+        },
+        width: 640,
+        height: 480
+    });
+
+    camera.start();
+})
+.catch(() => {
+    sendCheatAlert("Camera Permission Denied");
+});
+</script>
+
+</body>
+</html>
